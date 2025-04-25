@@ -26,6 +26,7 @@ const logoStyle: HeadConfig = ["style", {}, `
 export default defineConfig({
   lang: "en-US",
   title: "OxideMod",
+  base: '/Oxide.Docs.Test/'
   description: "Official documentation",
   srcDir: './docs',
   ignoreDeadLinks: true, //TODO: Remove for PR
