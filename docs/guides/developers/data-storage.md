@@ -8,8 +8,8 @@ after: using-decompiler
 ## Configuration/user data file
 
 As previously mentioned in the section [My first plugin](./my-first-plugin), configuration and user data file use `Newtonsoft.Json` to serialize data structure.
-Configuration files are stored in  `./oxide/config folder` and
-User data files are stored in  `./oxide/data`. 
+Configuration files are stored in the `./oxide/config folder` and
+user data files are stored in  `./oxide/data`.  
 But default path can be modified to save in subfolder.  
 
 the basic data structure 
@@ -26,7 +26,7 @@ will be serialised to
 }
 ```
 Using the variable name as the key, which is not good for readability and clarity.  
-Best practice is to use [NewtonSoft serialization attributes](https://www.newtonsoft.com/json/help/html/SerializeObject.htm) for clarity the information given to the user.Most commonly use attributes :
+Best practice is to use [NewtonSoft serialization attributes](https://www.newtonsoft.com/json/help/html/SerializeObject.htm) attributes, to improve clarity of the information given to the user. Most commonly use attributes are JsonProperty and JsonIgnore:  
 ```csharp
 private class PluginData
 {
@@ -38,7 +38,7 @@ private class PluginData
 	[JsonProperty(PropertyName = "Maximum health value (default=100)")]
 	public int MaxHealth = 100;
 	
-	// because sometime you need data that does not need to be saved
+	// because some data does not need to be saved. only save what's needed
 	[JsonIgnore]  
 	public Vector3 Position;
 
@@ -60,7 +60,66 @@ and previous sample code will serialize to:
 		]
 }
 ```
+### JSON converter
 
+It is possible to add custom converter modules by using JsonConverter, for specific types of data.
+JsonConverter derived class with methods WriteJson, ReadJson and CanConvert, need to be defined.
+The function will determine what to save and how to format the data. The sample code is to show how to serialize `Vector3` on a single line.  
+```csharp{5-6}
+DynamicConfigFile data;
+private void LoadData()
+{
+	data = Interface.Oxide.DataFileSystem.GetFile(Name);
+	data.Settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+	data.Settings.Converters = new JsonConverter[] { new UnityVector3Converter() };
+	try
+	{
+		datafile = data.ReadObject<List<datatype>>();
+	}
+	catch
+	{
+		datafile = new List<datatype>();
+	}
+	data.Clear();
+}
+```
+```csharp
+private void SaveData()
+{
+	if (datafile != null) data.WriteObject(datafile);
+}
+```
+```csharp
+private class UnityVector3Converter : JsonConverter
+{
+	public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+	{
+		var vector = (Vector3)value;
+		writer.WriteValue($"{vector.x} {vector.y} {vector.z}");
+	}
+
+	public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+	{
+		if (reader.TokenType == JsonToken.String)
+		{
+			var values = reader.Value.ToString().Trim().Split(' ');
+			return new Vector3(Convert.ToSingle(values[0]), Convert.ToSingle(values[1]), Convert.ToSingle(values[2]));
+		}
+		var o = JObject.Load(reader);
+		return new Vector3(Convert.ToSingle(o["x"]), Convert.ToSingle(o["y"]), Convert.ToSingle(o["z"]));
+	}
+
+	public override bool CanConvert(Type objectType)
+	{
+		return objectType == typeof(Vector3);
+	}
+}
+```
+		
+With this sample code, the serialized data will be compact and look like this for Vertor3d data.
+```json		
+"position": "-2310 11.10 574",
+```
 
 ## Language data file
 
