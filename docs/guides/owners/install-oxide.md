@@ -9,7 +9,7 @@ after: setup-server
 
 Before you begin with the installation of the Oxide modding framework, ensure that you meet the following prerequisites:
 
-1. `Rust Server`: You need to have a fully set up Rust server. If you haven't set up one, refer to the previous section ["Setting up a Rust Server"](linky.todo).
+1. `Rust Server`: You need to have a fully set up Rust server. If you haven't set up one, refer to the previous section ["Setting up a Rust Server"](./setup-server).
 
 2. `Server Access`: You must have access to your server's file system. This is typically done through a FTP (File Transfer Protocol) client such as FileZilla or through a hosting provider's control panel.
 
@@ -30,9 +30,9 @@ To install Oxide on your Rust server, you first need to download the latest vers
 4. In the expanded "Assets" section, you'll see a `Oxide.Rust.zip` file for Windows servers and a `Oxide.Rust-linux.zip` for Linux servers. Choose the file that corresponds to your server's operating system. This is the file you need to download. Click on it to start the download.
 
 5. Once downloaded, locate the `.zip` file in your downloads folder and extract the contents.
-::: info NOTE
-You should extract the contents to a temporary directory, not directly to your Rust server directory. We'll cover uploading the files to your Rust server in the next section below.
-:::
+   ::: info NOTE
+   You should extract the contents to a temporary directory, not directly to your Rust server directory. We'll cover uploading the files to your Rust server in the next section below.
+   :::
 
 Now that we've downloaded and properly extracted Oxide, we can move on to the next section: Uploading Oxide to Your Server.
 

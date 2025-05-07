@@ -71,7 +71,7 @@ Running this script will keep your Rust server up to date. You might consider sc
 
 ## 3. Configuring Your Server
 
-Once you have Rust installed on your server, the next step is to configure the server. Server configuration involves setting up various parameters to customize your server's gameplay experience. 
+Once you have Rust installed on your server, the next step is to configure the server. Server configuration involves setting up various parameters to customize your server's gameplay experience.
 
 ### Server.cfg
 
@@ -93,8 +93,7 @@ server.headerimage "http://example.com/myheaderimage.jpg"
 server.url "http://example.com"
 ```
 
-These are just a few of the many settings that can be customized in the `server.cfg` file. For a complete list of available server configurations, you can refer to the [official FacePunch documentation](https://wiki.facepunch.com/rust/Configuring-Rust).
-
+These are just a few of the many settings that can be customized in the `server.cfg` file. For a complete list of available server configurations, you can refer to the [official FacePunch documentation](https://wiki.facepunch.com/rust/Creating-a-server).
 
 ## 4. Starting the Server
 
