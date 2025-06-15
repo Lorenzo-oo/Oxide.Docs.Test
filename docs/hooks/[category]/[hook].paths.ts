@@ -89,7 +89,7 @@ function getHookDescription(hooks: IHook[]) {
 
   for (const hook of hooks) {
     if (hook.HookDescription && !output.includes(hook.HookDescription)) {
-      output.push(hook.HookDescription.replace(/\r/g, '  '));
+      output.push(hook.HookDescription.replace(/\r/g, "  "));
     }
   }
 
